@@ -130,6 +130,11 @@ public class SolrPageRequest implements Pageable {
 		return new SolrPageRequest(0, getPageSize(), getSort());
 	}
 
+	@Override
+	public Pageable withPage(int pageNumber) {
+		return new SolrPageRequest(pageNumber, getPageSize(), getSort());
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.springframework.data.domain.Pageable#hasPrevious()
