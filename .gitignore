@@ -11,3 +11,5 @@ spring-data-solr.iml
 _site
 
 /bin/
+.gradle/
+build/
