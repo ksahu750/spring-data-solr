@@ -17,11 +17,11 @@ package org.springframework.data.solr.repository.cdi;
 
 import java.io.IOException;
 
-import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.xml.parsers.ParserConfigurationException;
 
+import jakarta.annotation.PreDestroy;
 import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.SimpleQuery;

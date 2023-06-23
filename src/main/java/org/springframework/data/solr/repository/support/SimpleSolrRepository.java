@@ -193,6 +193,11 @@ public class SimpleSolrRepository<T, ID extends Serializable> implements SolrCru
 	}
 
 	@Override
+	public void deleteAllById(Iterable<? extends ID> ids) {
+		throw new RuntimeException("Not implemented yet.");
+	}
+
+	@Override
 	public void deleteAll(Iterable<? extends T> entities) {
 		Assert.notNull(entities, "Cannot delete 'null' list");
 

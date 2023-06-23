@@ -23,13 +23,13 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.enterprise.event.Observes;
-import javax.enterprise.inject.UnsatisfiedResolutionException;
-import javax.enterprise.inject.spi.AfterBeanDiscovery;
-import javax.enterprise.inject.spi.Bean;
-import javax.enterprise.inject.spi.BeanManager;
-import javax.enterprise.inject.spi.ProcessBean;
 
+import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.inject.UnsatisfiedResolutionException;
+import jakarta.enterprise.inject.spi.AfterBeanDiscovery;
+import jakarta.enterprise.inject.spi.Bean;
+import jakarta.enterprise.inject.spi.BeanManager;
+import jakarta.enterprise.inject.spi.ProcessBean;
 import org.springframework.data.repository.cdi.CdiRepositoryExtensionSupport;
 import org.springframework.data.solr.core.SolrOperations;
 
@@ -63,7 +63,7 @@ public class SolrRepositoryExtension extends CdiRepositoryExtensionSupport {
 	}
 
 	private <T> Bean<T> createRepositoryBean(Class<T> repositoryType, Set<Annotation> qualifiers,
-			BeanManager beanManager) {
+											 BeanManager beanManager) {
 		Bean<SolrOperations> solrOperationBeans = this.solrOperationsMap.get(qualifiers.toString());
 
 		if (solrOperationBeans == null) {

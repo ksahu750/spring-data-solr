@@ -19,16 +19,17 @@ import java.lang.annotation.Annotation;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.enterprise.context.spi.CreationalContext;
-import javax.enterprise.inject.spi.Bean;
-import javax.enterprise.inject.spi.BeanManager;
-
+import jakarta.enterprise.context.spi.CreationalContext;
+import jakarta.enterprise.inject.spi.Bean;
+import jakarta.enterprise.inject.spi.BeanManager;
 import org.springframework.data.repository.cdi.CdiRepositoryBean;
 import org.springframework.data.repository.config.CustomRepositoryImplementationDetector;
 import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.repository.SolrRepository;
 import org.springframework.data.solr.repository.support.SolrRepositoryFactory;
 import org.springframework.util.Assert;
+
+
 
 /**
  * Uses {@link CdiRepositoryBean} to create {@link SolrRepository} instances.
@@ -51,7 +52,7 @@ public class SolrRepositoryBean<T> extends CdiRepositoryBean<T> {
 	 *          {@link CustomRepositoryImplementationDetector}, can be {@literal null}.
 	 */
 	public SolrRepositoryBean(Bean<SolrOperations> operations, Set<Annotation> qualifiers, Class<T> repositoryType,
-			BeanManager beanManager, Optional<CustomRepositoryImplementationDetector> detector) {
+							  BeanManager beanManager, Optional<CustomRepositoryImplementationDetector> detector) {
 		super(qualifiers, repositoryType, beanManager, detector);
 
 		Assert.notNull(operations, "Cannot create repository with 'null' for SolrOperations");

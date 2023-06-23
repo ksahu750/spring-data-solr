@@ -26,8 +26,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.servlet.http.HttpServletRequest;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.io.FileUtils;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -222,7 +222,7 @@ public class EmbeddedSolrServer extends ExternalResource implements SolrClientFa
 	 *
 	 * @author Christoph Strobl
 	 */
-	static class HttpMethodGuessingSolrRequestParsers extends SolrRequestParsers {
+	static class HttpMethodGuessingSolrRequestParsers extends SolrRequestParsersExtended {
 
 		HttpMethodGuessingSolrRequestParsers() {
 			this(null);

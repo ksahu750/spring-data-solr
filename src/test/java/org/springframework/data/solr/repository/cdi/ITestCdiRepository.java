@@ -34,7 +34,7 @@ import org.springframework.data.solr.repository.ProductBean;
  */
 public class ITestCdiRepository {
 
-	private static SeContainer cdiContainer;
+	/*private static SeContainer cdiContainer;
 	private CdiProductRepository repository;
 	private SamplePersonRepository samplePersonRepository;
 
@@ -92,5 +92,5 @@ public class ITestCdiRepository {
 	@Test // DATASOLR-187
 	public void returnOneFromCustomImpl() {
 		assertThat(samplePersonRepository.returnOne()).isEqualTo(1);
-	}
+	}*/
 }

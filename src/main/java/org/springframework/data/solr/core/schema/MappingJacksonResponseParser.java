@@ -15,19 +15,17 @@
  */
 package org.springframework.data.solr.core.schema;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.nio.charset.Charset;
-
-import javax.activation.MimeType;
-import javax.activation.MimeTypeParseException;
-
 import org.apache.solr.client.solrj.ResponseParser;
 import org.apache.solr.common.util.NamedList;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.lang.Nullable;
+import org.springframework.util.MimeType;
 import org.springframework.util.StreamUtils;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.nio.charset.Charset;
 
 /**
  * @author Christoph Strobl
@@ -35,56 +33,52 @@ import org.springframework.util.StreamUtils;
  */
 public class MappingJacksonResponseParser extends ResponseParser {
 
-	private static final String WRITER = "json";
+    private static final String WRITER = "json";
 
-	private final MimeType responseType;
+    private final MimeType responseType;
 
-	public MappingJacksonResponseParser() {
-		this(defaultMimeType());
-	}
+    public MappingJacksonResponseParser() {
+        this(defaultMimeType());
+    }
 
-	public MappingJacksonResponseParser(@Nullable MimeType responseType) {
-		this.responseType = responseType != null ? responseType : defaultMimeType();
-	}
+    public MappingJacksonResponseParser(@Nullable MimeType responseType) {
+        this.responseType = responseType != null ? responseType : defaultMimeType();
+    }
 
-	@Override
-	public String getWriterType() {
-		return WRITER;
-	}
+    @Override
+    public String getWriterType() {
+        return WRITER;
+    }
 
-	@Override
-	public String getContentType() {
-		return responseType.toString();
-	}
+    @Override
+    public String getContentType() {
+        return responseType.toString();
+    }
 
-	@Override
-	public String getVersion() {
-		return super.getVersion();
-	}
+    @Override
+    public String getVersion() {
+        return super.getVersion();
+    }
 
-	@Override
-	public NamedList<Object> processResponse(InputStream body, String encoding) {
+    @Override
+    public NamedList<Object> processResponse(InputStream body, String encoding) {
 
-		NamedList<Object> result = new NamedList<>();
-		try {
-			result.add("json", StreamUtils.copyToString(body, Charset.forName(encoding)));
-		} catch (IOException e) {
-			throw new InvalidDataAccessResourceUsageException("Unable to read json from stream", e);
-		}
-		return result;
-	}
+        NamedList<Object> result = new NamedList<>();
+        try {
+            result.add("json", StreamUtils.copyToString(body, Charset.forName(encoding)));
+        } catch (IOException e) {
+            throw new InvalidDataAccessResourceUsageException("Unable to read json from stream", e);
+        }
+        return result;
+    }
 
-	@Override
-	public NamedList<Object> processResponse(Reader reader) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public NamedList<Object> processResponse(Reader reader) {
+        throw new UnsupportedOperationException();
+    }
 
-	private static MimeType defaultMimeType() {
-		try {
-			return new MimeType("application", "json");
-		} catch (MimeTypeParseException o_O) {
-			throw new IllegalArgumentException(o_O);
-		}
-	}
+    private static MimeType defaultMimeType() {
+        return new MimeType("application", "json");
+    }
 
 }

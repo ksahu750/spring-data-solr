@@ -17,6 +17,7 @@ package org.springframework.data.solr.repository;
 
 import java.io.Serializable;
 
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.Repository;
 
@@ -26,7 +27,7 @@ import org.springframework.data.repository.Repository;
  * @author Christoph Strobl
  */
 @NoRepositoryBean
-public interface SolrRepository<T, ID extends Serializable> extends Repository<T, ID> {
+public interface SolrRepository<T, ID extends Serializable> extends CrudRepository<T, ID> {
 
 	/**
 	 * Returns the number of entities available.
