@@ -61,7 +61,7 @@ dependencies {
     compileOnly 'jakarta.enterprise:jakarta.enterprise.cdi-api:4.0.1'
 }
 
-group = 'org.springframework.data'
+group = 'io.github.shinusuresh'
 version = '5.1.0'
 description = 'Spring Data Solr'
 java.sourceCompatibility = JavaVersion.VERSION_17
