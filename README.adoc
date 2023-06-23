@@ -81,11 +81,7 @@ Add the Maven dependency:
 
 === Gradle configuration
 [source,groovy]
----
 implementation("io.github.shinusuresh:spring-data-solr:5.1.0")
----
-
-
 
 == Getting Help
 
