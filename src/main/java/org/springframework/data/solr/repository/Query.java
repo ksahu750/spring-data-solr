@@ -80,7 +80,7 @@ public @interface Query {
 	String requestHandler() default "";
 
 	/**
-	 * The time in milliseconds allowed for a search to finish. Values <= 0 mean no time restriction.
+	 * The time in milliseconds allowed for a search to finish. Values &lt;= 0 mean no time restriction.
 	 *
 	 * @return
 	 */
