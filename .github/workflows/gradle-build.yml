@@ -2,8 +2,7 @@ name: Build branches
 on:
   release:
     types:
-      - created
-      - released
+      - published
   push:
     branches:
       - main
