@@ -59,7 +59,7 @@ dependencies {
 
 group = 'io.github.net-a-porter'
 archivesBaseName = 'spring-data-solr'
-version = '5.1.1'
+version = '5.1.2'
 description = 'Spring Data Solr - Support to spring-framework 6'
 java.sourceCompatibility = JavaVersion.VERSION_17
 
