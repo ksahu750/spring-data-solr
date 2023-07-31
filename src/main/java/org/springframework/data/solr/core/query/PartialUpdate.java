@@ -23,7 +23,7 @@ import org.springframework.lang.Nullable;
 
 /**
  * Implementation of {@link Update} to be used when performing atomic updates against solr. <br />
- * Update can directly be saved via {@link org.springframework.data.solr.core.SolrOperations#saveBean(Object)}
+ * Update can directly be saved via {@link org.springframework.data.solr.core.SolrOperations#saveBean(String, Object)}
  *
  * @author Christoph Strobl
  */
@@ -52,7 +52,7 @@ public class PartialUpdate implements Update {
 
 	/**
 	 * Add field with given name and value to the fields to be updated. Default {@link UpdateAction} will be
-	 * {@link UpdateAction.SET}.
+	 * {@link UpdateAction.EnumDesc}.
 	 *
 	 * @param fieldName
 	 * @param value

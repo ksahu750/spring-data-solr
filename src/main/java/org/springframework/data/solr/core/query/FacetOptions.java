@@ -612,7 +612,7 @@ public class FacetOptions {
 		 *
 		 * @param rangeOther which other counts shall be added to the facet result
 		 * @return this
-		 * @see FacetParams.FACET_RANGE_OTHER
+		 * @see FacetParams.FacetRangeOther
 		 */
 		@SuppressWarnings("unchecked")
 		public T setOther(FacetParams.FacetRangeOther rangeOther) {
@@ -624,7 +624,7 @@ public class FacetOptions {
 		 * The definition of additional (other) counts for the range facet.
 		 *
 		 * @return null which other counts shall be added to the facet result
-		 * @see FacetParams.FACET_RANGE_OTHER
+		 * @see FacetParams.FacetRangeOther
 		 */
 		@Nullable
 		public FacetRangeOther getOther() {
@@ -636,7 +636,7 @@ public class FacetOptions {
 		 *
 		 * @param rangeInclude include option for range
 		 * @return this
-		 * @see FacetParams.FACET_RANGE_INCLUDE
+		 * @see FacetParams.FacetRangeInclude
 		 */
 		@SuppressWarnings("unchecked")
 		public T setInclude(FacetParams.FacetRangeInclude rangeInclude) {
@@ -649,7 +649,7 @@ public class FacetOptions {
 		 * requests.
 		 *
 		 * @return null if not set
-		 * @see FacetParams.FACET_RANGE_INCLUDE
+		 * @see FacetParams.FacetRangeInclude
 		 */
 		@Nullable
 		public FacetRangeInclude getInclude() {

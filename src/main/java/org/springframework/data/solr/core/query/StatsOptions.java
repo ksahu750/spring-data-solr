@@ -156,7 +156,7 @@ public class StatsOptions {
 	 * Set of options available to get field's statistics having a field as context.
 	 *
 	 * @author Francisco Spaeth
-	 * @sice 1.4
+	 * @since 1.4
 	 */
 	public class FieldStatsOptions extends StatsOptions {
 

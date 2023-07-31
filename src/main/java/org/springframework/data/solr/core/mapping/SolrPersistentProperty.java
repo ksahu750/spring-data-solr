@@ -112,8 +112,8 @@ public interface SolrPersistentProperty extends PersistentProperty<SolrPersisten
 	 * Returns whether the property should be handled as dynamic property.
 	 *
 	 * @return
-	 * @see {@link org.springframework.data.solr.core.mapping.Dynamic}
 	 * @since 1.5
+	 * @see Dynamic
 	 */
 	boolean isDynamicProperty();
 

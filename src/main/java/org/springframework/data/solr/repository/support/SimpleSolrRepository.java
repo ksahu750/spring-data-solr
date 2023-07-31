@@ -44,7 +44,7 @@ import org.springframework.util.Assert;
  * Solr specific repository implementation. Likely to be used as target within {@link SolrRepositoryFactory}
  *
  * @param <T>
- * @Param <ID>
+ * @param <ID>
  * @author Christoph Strobl
  * @author Mark Paluch
  * @author Mayank Kumar

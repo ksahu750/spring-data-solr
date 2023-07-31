@@ -118,7 +118,7 @@ public interface Query extends SolrDataQuery {
 	<T extends Query> T addFilterQuery(FilterQuery query);
 
 	/**
-	 * The time in milliseconds allowed for a search to finish. Values <= 0 mean no time restriction.
+	 * The time in milliseconds allowed for a search to finish. Values <code> &lt;= 0</code> mean no time restriction.
 	 *
 	 * @param timeAllowed
 	 * @return
@@ -197,7 +197,6 @@ public interface Query extends SolrDataQuery {
 	/**
 	 * Set the default operator {@code q.op} for query expressions
 	 *
-	 * @return
 	 */
 	void setDefaultOperator(Operator operator);
 

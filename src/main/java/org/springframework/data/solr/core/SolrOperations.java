@@ -439,7 +439,7 @@ public interface SolrOperations {
 	 * @param query must not be {@literal null}.
 	 * @param clazz must not be {@literal null}.
 	 * @return never {@literal null}.
-	 * @size 3.0
+	 * @since 3.0
 	 */
 	<T> StatsPage<T> queryForStatsPage(String collection, Query query, Class<T> clazz);
 

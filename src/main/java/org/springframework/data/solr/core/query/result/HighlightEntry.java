@@ -25,7 +25,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Highlight result entry holding reference to domain object ({@link #getEntity()) as well as the highlights
+ * Highlight result entry holding reference to domain object as well as the highlights
  *
  * @author Christoph Strobl
  */

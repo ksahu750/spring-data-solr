@@ -22,7 +22,7 @@ import org.springframework.data.solr.core.query.Query;
 
 /**
  * Representation of a Group result page, holding one {@link GroupResult} for each grouping requested on a
- * {@link org.springframework.data.solr.core.query.GroupQuery}.
+ * {@link org.springframework.data.solr.core.query.GroupOptions}.
  *
  * @author Francisco Spaeth
  * @param <T>

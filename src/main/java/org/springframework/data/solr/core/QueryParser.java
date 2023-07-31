@@ -25,8 +25,9 @@ import org.springframework.lang.Nullable;
  * The QueryParser takes a spring-data-solr Query and returns a SolrQuery. All Query parameters are translated into the
  * according SolrQuery fields. <b>Example:</b> <code>
  *  Query query = new SimpleQuery(new Criteria("field_1").is("value_1").and("field_2").startsWith("value_2")).addProjection("field_3").setPageRequest(new PageRequest(0, 10));
- * </code> Will be parsed to a SolrQuery that outputs the following <code>
- *  q=field_1%3Avalue_1+AND+field_2%3Avalue_2*&fl=field_3&start=0&rows=10
+ * </code> Will be parsed to a SolrQuery that outputs the following
+ * <code>
+ *  q=field_1%3Avalue_1+AND+field_2%3Avalue_2*%3Afl=field_3%3Astart=0%3Arows=10
  * </code>
  *
  * @author Christoph Strobl
