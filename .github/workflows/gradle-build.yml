@@ -1,5 +1,9 @@
 name: Build branches
 on:
+  release:
+    types:
+      - created
+      - released
   push:
     branches:
       - main
