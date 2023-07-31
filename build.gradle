@@ -10,9 +10,9 @@ repositories {
     maven {
         url = uri('https://repo.maven.apache.org/maven2')
     }
-    /*maven {
+    maven {
         url = uri('https://maven.restlet.talend.com')
-    }*/
+    }
 }
 
 dependencies {
