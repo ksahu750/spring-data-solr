@@ -10,9 +10,6 @@ repositories {
     maven {
         url = uri('https://repo.maven.apache.org/maven2')
     }
-    maven {
-        url = uri('https://maven.restlet.talend.com')
-    }
 }
 
 dependencies {
@@ -22,8 +19,8 @@ dependencies {
     api 'org.springframework.data:spring-data-commons:3.1.0'
     api 'org.apache.commons:commons-lang3:3.1'
     api 'joda-time:joda-time:2.12.5'
-    api 'org.apache.solr:solr-solrj:8.5.2'
-    api 'org.apache.solr:solr-core:8.5.2'
+    api 'org.apache.solr:solr-solrj:8.7.0'
+    api 'org.apache.solr:solr-core:8.7.0'
     api 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
     api 'org.slf4j:slf4j-api:2.0.2'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
@@ -59,7 +56,7 @@ dependencies {
 
 group = 'io.github.net-a-porter'
 archivesBaseName = 'spring-data-solr'
-version = '5.1.4'
+version = '5.1.5'
 description = 'Spring Data Solr - Support to spring-framework 6'
 java.sourceCompatibility = JavaVersion.VERSION_17
 
