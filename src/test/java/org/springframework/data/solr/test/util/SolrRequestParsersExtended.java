@@ -39,8 +39,11 @@ public class SolrRequestParsersExtended extends SolrRequestParsers {
             this.enableRemoteStreams = false;
             this.enableStreamBody = false;
         } else {
-            this.enableRemoteStreams = globalConfig.isEnableRemoteStreams();
-            this.enableStreamBody = globalConfig.isEnableStreamBody();
+          // TODO : CHECK THIS
+          /*   this.enableRemoteStreams = globalConfig.isEnableRemoteStreams();
+           this.enableStreamBody = globalConfig.isEnableStreamBody(); */
+      this.enableRemoteStreams = false;
+          this.enableStreamBody = false;
         }
     }
 
