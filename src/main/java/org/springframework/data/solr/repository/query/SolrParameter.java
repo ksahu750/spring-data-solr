@@ -18,6 +18,7 @@ package org.springframework.data.solr.repository.query;
 import org.springframework.core.MethodParameter;
 import org.springframework.data.repository.query.Parameter;
 import org.springframework.data.solr.repository.Boost;
+import org.springframework.data.util.TypeInformation;
 import org.springframework.lang.Nullable;
 
 /**
@@ -29,8 +30,8 @@ class SolrParameter extends Parameter {
 
 	private final MethodParameter parameter;
 
-	protected SolrParameter(MethodParameter parameter) {
-		super(parameter);
+	protected SolrParameter(MethodParameter parameter, TypeInformation<?> domainType) {
+		super(parameter, domainType);
 		this.parameter = parameter;
 	}
 

@@ -213,13 +213,13 @@ public class SimpleSolrPersistentEntityTests {
 		when(context.getBean("cnp")).thenReturn(provider);
 
 		SimpleSolrPersistentEntity<Document1WithBeanReferencingSpElUsingTargetTypeInfo> entity = new SimpleSolrPersistentEntity<>(
-				ClassTypeInformation.from(Document1WithBeanReferencingSpElUsingTargetTypeInfo.class));
+				TypeInformation.of(Document1WithBeanReferencingSpElUsingTargetTypeInfo.class));
 		entity.setEvaluationContextProvider(new ExtensionAwareEvaluationContextProvider(context));
 
 		assertThat(entity.getCollectionName()).isEqualTo("reference");
 
 		SimpleSolrPersistentEntity<Document2WithBeanReferencingSpElUsingTargetTypeInfo> entity2 = new SimpleSolrPersistentEntity<>(
-				ClassTypeInformation.from(Document2WithBeanReferencingSpElUsingTargetTypeInfo.class));
+				TypeInformation.of(Document2WithBeanReferencingSpElUsingTargetTypeInfo.class));
 		entity2.setEvaluationContextProvider(new ExtensionAwareEvaluationContextProvider(context));
 
 		assertThat(entity2.getCollectionName()).isEqualTo("doc2");

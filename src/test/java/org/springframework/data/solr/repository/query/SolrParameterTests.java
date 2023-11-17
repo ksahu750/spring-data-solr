@@ -26,6 +26,7 @@ import org.springframework.core.MethodParameter;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.solr.repository.Boost;
 import org.springframework.data.solr.repository.ProductBean;
+import org.springframework.data.util.TypeInformation;
 
 /**
  * @author Christoph Strobl
@@ -36,7 +37,7 @@ public class SolrParameterTests {
 	public void testGetBoost() throws Exception {
 		Method method = getQueryMethodByName("findByNameWithBoost", String.class);
 		MethodParameter methodParam = new MethodParameter(method, 0);
-		SolrParameter parameter = new SolrParameter(methodParam);
+		SolrParameter parameter = new SolrParameter(methodParam, TypeInformation.of(MethodParameter.class));
 
 		assertThat(parameter.getBoost()).isCloseTo(3.0f, offset(0.0f));
 	}
@@ -45,7 +46,7 @@ public class SolrParameterTests {
 	public void testGetBoostWhereBoostIsNotDefined() throws Exception {
 		Method method = getQueryMethodByName("findByNameWithoutBoost", String.class);
 		MethodParameter methodParam = new MethodParameter(method, 0);
-		SolrParameter parameter = new SolrParameter(methodParam);
+		SolrParameter parameter = new SolrParameter(methodParam, TypeInformation.of(MethodParameter.class));
 
 		assertThat(parameter.getBoost()).isCloseTo(Float.NaN, offset(0.0f));
 	}
@@ -54,7 +55,7 @@ public class SolrParameterTests {
 	public void testGetBoostWhereBoostIsDefaulted() throws Exception {
 		Method method = getQueryMethodByName("findByNameWithDefaultBoost", String.class);
 		MethodParameter methodParam = new MethodParameter(method, 0);
-		SolrParameter parameter = new SolrParameter(methodParam);
+		SolrParameter parameter = new SolrParameter(methodParam, TypeInformation.of(MethodParameter.class));
 
 		assertThat(parameter.getBoost()).isCloseTo(Float.NaN, offset(0.0f));
 	}
@@ -63,6 +64,7 @@ public class SolrParameterTests {
 		return Repo1.class.getMethod(name, parameters);
 	}
 
+  @SuppressWarnings("unused")
 	interface Repo1 extends Repository<ProductBean, String> {
 
 		List<ProductBean> findByNameWithBoost(@Boost(3) String name);

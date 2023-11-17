@@ -17,15 +17,7 @@ package org.springframework.data.solr.repository.query;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -40,7 +32,6 @@ import org.springframework.data.solr.repository.Query;
 import org.springframework.data.solr.repository.SelectiveStats;
 import org.springframework.data.solr.repository.Spellcheck;
 import org.springframework.data.solr.repository.Stats;
-import org.springframework.data.util.ClassTypeInformation;
 import org.springframework.data.util.TypeInformation;
 import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
@@ -103,7 +94,7 @@ public class SolrQueryMethod extends QueryMethod {
 	}
 
 	TypeInformation<?> getReturnType() {
-		return ClassTypeInformation.fromReturnTypeOf(method);
+		return TypeInformation.fromReturnTypeOf(method);
 	}
 
 	/**
@@ -171,7 +162,7 @@ public class SolrQueryMethod extends QueryMethod {
 	}
 
 	public List<String[]> getPivotFields() {
-		List<Pivot> pivotFields = getAnnotationValuesList(getFacetAnnotation(), "pivots", Pivot.class);
+		List<Pivot> pivotFields = getAnnotationValuesList(getFacetAnnotation(), "pivots");
 		ArrayList<String[]> result = new ArrayList<>();
 
 		for (Pivot pivot : pivotFields) {
@@ -285,7 +276,7 @@ public class SolrQueryMethod extends QueryMethod {
 	 */
 	public Map<String, String[]> getStatsSelectiveFacets() {
 
-		List<SelectiveStats> selective = getAnnotationValuesList(getStatsAnnotation(), "selective", SelectiveStats.class);
+		List<SelectiveStats> selective = getAnnotationValuesList(getStatsAnnotation(), "selective");
 
 		Map<String, String[]> result = new LinkedHashMap<>();
 		for (SelectiveStats selectiveFacet : selective) {
@@ -301,7 +292,7 @@ public class SolrQueryMethod extends QueryMethod {
 	 */
 	public Collection<String> getStatsSelectiveCountDistinctFields() {
 
-		List<SelectiveStats> selective = getAnnotationValuesList(getStatsAnnotation(), "selective", SelectiveStats.class);
+		List<SelectiveStats> selective = getAnnotationValuesList(getStatsAnnotation(), "selective");
 
 		Collection<String> result = new LinkedHashSet<>();
 		for (SelectiveStats selectiveFacet : selective) {
@@ -325,7 +316,9 @@ public class SolrQueryMethod extends QueryMethod {
 	 * @since 1.2
 	 */
 	public boolean isDeleteQuery() {
-		return hasQueryAnnotation() && (Boolean) AnnotationUtils.getValue(getQueryAnnotation(), "delete");
+    return hasQueryAnnotation()
+        && (Boolean)
+            Objects.requireNonNull(AnnotationUtils.getValue(getQueryAnnotation(), "delete"));
 	}
 
 	@Nullable
@@ -466,7 +459,7 @@ public class SolrQueryMethod extends QueryMethod {
 	}
 
 	/**
-	 * @return
+	 * @return Spellcheck annotation
 	 * @since 2.1
 	 */
 	@Nullable
@@ -475,7 +468,7 @@ public class SolrQueryMethod extends QueryMethod {
 	}
 
 	/**
-	 * @return
+	 * @return true if {@link Spellcheck} is present
 	 * @since 2.1
 	 */
 	public boolean hasSpellcheck() {
@@ -483,7 +476,7 @@ public class SolrQueryMethod extends QueryMethod {
 	}
 
 	/**
-	 * @return
+	 * @return {@link SpellcheckOptions} if {@link Spellcheck} is present, {@literal null} otherwise.
 	 * @since 2.1
 	 */
 	@Nullable
@@ -540,7 +533,8 @@ public class SolrQueryMethod extends QueryMethod {
 		return sc;
 	}
 
-	private String getAnnotationValueAsStringOrNullIfBlank(@Nullable Annotation annotation, String attributeName) {
+	@Nullable
+  private String getAnnotationValueAsStringOrNullIfBlank(@Nullable Annotation annotation, String attributeName) {
 
 		if (annotation == null) {
 			return null;
@@ -567,7 +561,6 @@ public class SolrQueryMethod extends QueryMethod {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
 	private List<String> getAnnotationValuesAsStringList(@Nullable Annotation annotation, String attribute) {
 
 		if (annotation == null) {
@@ -575,14 +568,14 @@ public class SolrQueryMethod extends QueryMethod {
 		}
 
 		String[] values = (String[]) AnnotationUtils.getValue(annotation, attribute);
-		if (values.length > 1 || (values.length == 1 && StringUtils.hasText(values[0]))) {
+		if (Objects.nonNull(values) && (values.length > 1 || (values.length == 1 && StringUtils.hasText(values[0])))) {
 			return Arrays.asList(values);
 		}
 		return Collections.emptyList();
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T> List<T> getAnnotationValuesList(@Nullable Annotation annotation, String attribute, Class<T> clazz) {
+	private <T> List<T> getAnnotationValuesList(@Nullable Annotation annotation, String attribute) {
 
 		if (annotation == null) {
 			return Collections.emptyList();
@@ -590,7 +583,7 @@ public class SolrQueryMethod extends QueryMethod {
 
 		T[] values = (T[]) AnnotationUtils.getValue(annotation, attribute);
 
-		return (List) Arrays.asList(ObjectUtils.toObjectArray(values));
+		return (List<T>) Arrays.asList(ObjectUtils.toObjectArray(values));
 	}
 
 	@Override
@@ -610,8 +603,8 @@ public class SolrQueryMethod extends QueryMethod {
 	}
 
 	@Override
-	protected SolrParameters createParameters(Method method) {
-		return new SolrParameters(method);
+	protected SolrParameters createParameters(Method method, TypeInformation<?> domainType) {
+		return new SolrParameters(method, domainType);
 	}
 
 	@Override

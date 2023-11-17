@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'signing'
+//    id 'signing'
     id 'io.github.gradle-nexus.publish-plugin' version '2.0.0-rc-1'
 }
 
@@ -55,24 +55,24 @@ dependencies {
     compileOnly 'jakarta.enterprise:jakarta.enterprise.cdi-api:4.0.1'
 }
 
-group = 'io.github.net-a-porter'
+group = 'com.ksahu750.solr'
 archivesBaseName = 'spring-data-solr'
-version = '5.1.5'
+version = '5.2.0'
 description = 'Spring Data Solr - Support to spring-framework 6'
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 java {
     withSourcesJar()
-    withJavadocJar()
+//    withJavadocJar()
 }
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-tasks.withType(Javadoc) {
-    options.encoding = 'UTF-8'
-}
+//tasks.withType(Javadoc) {
+//    options.encoding = 'UTF-8'
+//}
 
 publishing {
     publications {
@@ -85,7 +85,7 @@ publishing {
                     name = project.description
                     description = project.description
                 }
-                url = 'https://github.com/NET-A-PORTER/spring-data-solr'
+                url = 'https://github.com/ksahu750/spring-data-solr'
 
                 licenses {
                     license {
@@ -95,9 +95,9 @@ publishing {
                 }
                 developers {
                     developer {
-                        id = 'shinusuresh'
-                        name = 'Shinu Suresh'
-                        email = 'shinu.suresh@ynap.com'
+                        id = 'ksahu750'
+                        name = 'Kunal Sahu'
+                        email = 'ksahu750gmail.com'
                     }
                     developer {
                         id = 'ChrisDeFer'
@@ -106,9 +106,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection = 'scm:git:https://github.com/NET-A-PORTER/spring-data-solr.git'
-                    developerConnection = 'scm:git:git://github.com/NET-A-PORTER/spring-data-solr.git'
-                    url = 'https://github.com/NET-A-PORTER/spring-data-solr'
+                    connection = 'scm:git:https://github.com/ksahu750/spring-data-solr.git'
+                    developerConnection = 'scm:git:git://github.com/ksahu750/spring-data-solr.git'
+                    url = 'https://github.com/ksahu750/spring-data-solr'
                 }
             }
         }
@@ -123,10 +123,10 @@ nexusPublishing {
     }
 }
 
-signing {
-    def signingKey = findProperty("signingKey")
-    def signingPassword = findProperty("signingPassword")
-    useInMemoryPgpKeys(signingKey, signingPassword)
-    sign publishing.publications.mavenJava
-}
+//signing {
+//    def signingKey = findProperty("signingKey")
+//    def signingPassword = findProperty("signingPassword")
+//    useInMemoryPgpKeys(signingKey, signingPassword)
+//    sign publishing.publications.mavenJava
+//}
 
