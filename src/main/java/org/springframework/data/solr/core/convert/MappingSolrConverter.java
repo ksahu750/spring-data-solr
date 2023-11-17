@@ -149,7 +149,7 @@ public class MappingSolrConverter extends SolrConverterBase
 		}
 
 		List<R> resultList = new ArrayList<>(source.size());
-		TypeInformation<R> typeInformation = ClassTypeInformation.from(type);
+		TypeInformation<R> typeInformation = TypeInformation.of(type);
 		for (SolrDocumentBase item : source) {
 			resultList.add(read(typeInformation, item));
 		}
@@ -159,7 +159,7 @@ public class MappingSolrConverter extends SolrConverterBase
 
 	@Override
 	public <R> R read(Class<R> type, SolrDocumentBase source) {
-		return read(ClassTypeInformation.from(type), source);
+		return read(TypeInformation.of(type), source);
 	}
 
 	@SuppressWarnings("unchecked")

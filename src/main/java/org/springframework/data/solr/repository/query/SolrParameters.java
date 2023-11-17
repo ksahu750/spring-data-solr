@@ -17,26 +17,20 @@ package org.springframework.data.solr.repository.query;
 
 import java.lang.reflect.Method;
 import java.util.List;
-
-import org.springframework.core.MethodParameter;
 import org.springframework.data.repository.query.Parameters;
+import org.springframework.data.util.TypeInformation;
 
 /**
  * @author Christoph Strobl
  */
 public class SolrParameters extends Parameters<SolrParameters, SolrParameter> {
 
-	public SolrParameters(Method method) {
-		super(method);
+  public SolrParameters(Method method, TypeInformation<?> domainType) {
+    super(method, methodParameter -> new SolrParameter(methodParameter, domainType));
 	}
 
 	public SolrParameters(List<SolrParameter> parameters) {
 		super(parameters);
-	}
-
-	@Override
-	protected SolrParameter createParameter(MethodParameter parameter) {
-		return new SolrParameter(parameter);
 	}
 
 	@Override
