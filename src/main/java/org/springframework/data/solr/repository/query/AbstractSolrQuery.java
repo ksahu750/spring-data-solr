@@ -15,13 +15,16 @@
  */
 package org.springframework.data.solr.repository.query;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import java.util.stream.Collectors;
 import org.apache.solr.common.params.HighlightParams;
+import org.apache.solr.common.params.ShardParams;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.domain.Page;
@@ -44,6 +47,7 @@ import org.springframework.data.solr.core.query.StatsOptions.FieldStatsOptions;
 import org.springframework.data.solr.core.query.result.FacetAndHighlightPage;
 import org.springframework.data.solr.core.query.result.FacetPage;
 import org.springframework.data.solr.core.query.result.HighlightPage;
+import org.springframework.data.solr.repository.ShardPreference;
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.util.Assert;
@@ -61,9 +65,10 @@ import org.springframework.util.StringUtils;
  */
 public abstract class AbstractSolrQuery implements RepositoryQuery {
 
-	private static final Pattern PARAMETER_PLACEHOLDER = Pattern.compile("\\?(\\d+)");
+  private static final Pattern PARAMETER_PLACEHOLDER = Pattern.compile("\\?(\\d+)");
+  public static final String SHARDS_PREFERENCE_DELIMITER = ":";
 
-	private final SolrOperations solrOperations;
+  private final SolrOperations solrOperations;
 	private final SolrQueryMethod solrQueryMethod;
 	private final String collection;
 
@@ -118,6 +123,9 @@ public abstract class AbstractSolrQuery implements RepositoryQuery {
 		setDefTypeIfDefined(query);
 		setRequestHandlerIfDefined(query);
 		setSpellecheckOptionsWhenDefined(query);
+    if (solrQueryMethod.hasShardPreference()) {
+      setShardPreference(solrQueryMethod, query);
+    }
 
 		if (solrQueryMethod.hasStatsDefinition()) {
 			query.setStatsOptions(extractStatsOptions(solrQueryMethod, accessor));
@@ -160,8 +168,67 @@ public abstract class AbstractSolrQuery implements RepositoryQuery {
 		return new SingleEntityExecution().execute(query);
 	}
 
-	@Override
-	public SolrQueryMethod getQueryMethod() {
+  private void setShardPreference(SolrQueryMethod solrQueryMethod, Query query) {
+    final ShardPreference shardPreference =
+        Objects.requireNonNull(solrQueryMethod.getShardPreference());
+    final String shardPreferenceValue = resolveShardPreference(shardPreference);
+    if (shardPreferenceValue != null) {
+      query.addParam(ShardParams.SHARDS_PREFERENCE, shardPreferenceValue);
+    }
+  }
+
+  @Nullable
+  private static String resolveShardPreference(ShardPreference shardPreference) {
+    if (StringUtils.hasText(shardPreference.value())) {
+      return shardPreference.value();
+    }
+    if (shardPreference.replicaType().length != 0) {
+      return shardPreferenceUsingReplicaType(shardPreference);
+    }
+    if (shardPreference.location().length != 0) {
+      return shardPreferenceUsingLocation(shardPreference);
+    }
+    if (!ShardPreference.LeaderPreference.NONE.equals(shardPreference.preferLeader())) {
+      return shardPreferenceUsingPreferLeader(shardPreference);
+    }
+    return null;
+  }
+
+  private static String shardPreferenceUsingReplicaType(ShardPreference shardPreference) {
+    return Arrays.stream(shardPreference.replicaType())
+        .map(
+            replicaType ->
+                ShardParams.SHARDS_PREFERENCE_REPLICA_TYPE
+                    + SHARDS_PREFERENCE_DELIMITER
+                    + replicaType.name())
+        .collect(Collectors.joining(","));
+  }
+
+  private static String shardPreferenceUsingLocation(ShardPreference shardPreference) {
+    return Arrays.stream(shardPreference.location())
+        .map(
+            location ->
+                ShardParams.SHARDS_PREFERENCE_REPLICA_LOCATION
+                    + SHARDS_PREFERENCE_DELIMITER
+                    + location)
+        .collect(Collectors.joining(","));
+  }
+
+  private static String shardPreferenceUsingPreferLeader(ShardPreference shardPreference) {
+    return switch (shardPreference.preferLeader()) {
+      case NEVER -> ShardParams.SHARDS_PREFERENCE_REPLICA_LEADER
+          + SHARDS_PREFERENCE_DELIMITER
+          + "false";
+      case ALWAYS -> ShardParams.SHARDS_PREFERENCE_REPLICA_LEADER
+          + SHARDS_PREFERENCE_DELIMITER
+          + "true";
+      default -> throw new IllegalStateException(
+          "Unexpected value: " + shardPreference.preferLeader());
+    };
+  }
+
+  @Override
+  public SolrQueryMethod getQueryMethod() {
 		return this.solrQueryMethod;
 	}
 

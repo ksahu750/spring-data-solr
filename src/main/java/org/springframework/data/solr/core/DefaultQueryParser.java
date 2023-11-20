@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
-
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
@@ -36,7 +36,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mapping.context.MappingContext;
 import org.springframework.data.solr.core.query.*;
-import org.springframework.data.solr.core.query.Criteria.Predicate;
 import org.springframework.data.solr.core.query.FacetOptions.FacetParameter;
 import org.springframework.data.solr.core.query.FacetOptions.FieldWithDateRangeParameters;
 import org.springframework.data.solr.core.query.FacetOptions.FieldWithFacetParameters;
@@ -97,7 +96,11 @@ public class DefaultQueryParser extends QueryParserBase<SolrDataQuery> {
 		SolrQuery solrQuery = new SolrQuery();
 		solrQuery.setParam(CommonParams.Q, getQueryString(query, domainType));
 
-		if (query instanceof Query) {
+    if (Objects.nonNull(query.getParams())) {
+      query.getParams().forEach(solrQuery::setParam);
+    }
+
+    if (query instanceof Query) {
 			processQueryOptions(solrQuery, (Query) query, domainType);
 		}
 

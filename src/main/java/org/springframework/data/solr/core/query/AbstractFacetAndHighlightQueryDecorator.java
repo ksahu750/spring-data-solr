@@ -85,4 +85,9 @@ public class AbstractFacetAndHighlightQueryDecorator extends AbstractQueryDecora
 	public boolean hasFacetOptions() {
 		return query.hasFacetOptions();
 	}
+
+  @Override
+  public <T extends Query> T addParam(String key, String value) {
+    return query.addParam(key, value);
+  }
 }

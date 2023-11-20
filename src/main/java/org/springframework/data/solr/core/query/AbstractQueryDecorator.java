@@ -16,6 +16,7 @@
 package org.springframework.data.solr.core.query;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -154,7 +155,17 @@ public abstract class AbstractQueryDecorator implements Query {
 		this.query.setRequestHandler(requestHandler);
 	}
 
-	@Override
+  @Override
+  public <T extends Query> T addParam(String key, String value) {
+    return this.query.addParam(key, value);
+  }
+
+  @Override
+  public Map<String, String> getParams() {
+    return this.query.getParams();
+  }
+
+  @Override
 	public <T extends Query> T setOffset(Long offset) {
 		return this.query.setOffset(offset);
 	}
