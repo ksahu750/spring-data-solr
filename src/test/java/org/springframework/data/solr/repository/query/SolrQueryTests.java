@@ -18,12 +18,11 @@ package org.springframework.data.solr.repository.query;
 import static org.assertj.core.api.Assertions.*;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
+import org.apache.solr.cluster.Replica;
 import org.apache.solr.common.params.HighlightParams;
+import org.apache.solr.common.params.ShardParams;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,12 +53,7 @@ import org.springframework.data.solr.core.query.SimpleField;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.data.solr.core.query.SimpleStringCriteria;
 import org.springframework.data.solr.core.query.StatsOptions;
-import org.springframework.data.solr.repository.Facet;
-import org.springframework.data.solr.repository.Highlight;
-import org.springframework.data.solr.repository.ProductBean;
-import org.springframework.data.solr.repository.SelectiveStats;
-import org.springframework.data.solr.repository.SolrCrudRepository;
-import org.springframework.data.solr.repository.Stats;
+import org.springframework.data.solr.repository.*;
 import org.springframework.data.solr.repository.support.MappingSolrEntityInformation;
 
 /**
@@ -286,7 +280,25 @@ public class SolrQueryTests {
 		assertThat(capturedOptions.getSelectiveFacets().entrySet()).isEmpty();
 	}
 
-	@SuppressWarnings("unchecked")
+  @SuppressWarnings("unchecked")
+  @Test // DATASOLR-160
+  public void testQueryWithShardPreference() {
+    ArgumentCaptor<Query> captor = ArgumentCaptor.forClass(Query.class);
+
+    createQueryForMethod("findAndApplyShardPreference", Pageable.class)
+        .execute(new Object[] { PageRequest.of(0, 10) });
+
+    Mockito.verify(solrOperationsMock, Mockito.times(1)).queryForPage(Mockito.eq("collection-1"), captor.capture(),
+        (Class<ProductBean>) Mockito.any());
+
+    Map<String, String> params = captor.getValue().getParams();
+
+    assertThat(params.size()).isEqualTo(1);
+    assertThat(params).containsKey(ShardParams.SHARDS_PREFERENCE);
+    assertThat(params.get("shards.preference")).isEqualTo("replica.type:PULL,replica.type:TLOG");
+  }
+
+  @SuppressWarnings("unchecked")
 	@Test // DATASOLR-160
 	public void testQueryWithStatsNoFacets() {
 		ArgumentCaptor<Query> captor = ArgumentCaptor.forClass(Query.class);
@@ -363,6 +375,9 @@ public class SolrQueryTests {
 		Page<ProductBean> findAndApplyStatsNoFacets(Pageable page);
 
 		ProductBean findAndReturnNotOptional();
+
+    @ShardPreference(replicaType = {Replica.ReplicaType.PULL, Replica.ReplicaType.TLOG})
+    Slice<ProductBean> findAndApplyShardPreference(Pageable page);
 	}
 
 	private class SolrEntityInformationCreatorImpl implements SolrEntityInformationCreator {

@@ -17,6 +17,8 @@ package org.springframework.data.solr.core.query;
 
 import org.springframework.lang.Nullable;
 
+import java.util.Map;
+
 /**
  * Common interface for any Query
  *
@@ -48,5 +50,7 @@ public interface SolrDataQuery {
 	 */
 	@Nullable
 	Join getJoin();
+
+  @Nullable Map<String, String> getParams();
 
 }

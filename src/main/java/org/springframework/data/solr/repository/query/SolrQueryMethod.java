@@ -25,13 +25,7 @@ import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.data.repository.query.QueryMethod;
 import org.springframework.data.solr.core.query.SpellcheckOptions;
-import org.springframework.data.solr.repository.Facet;
-import org.springframework.data.solr.repository.Highlight;
-import org.springframework.data.solr.repository.Pivot;
-import org.springframework.data.solr.repository.Query;
-import org.springframework.data.solr.repository.SelectiveStats;
-import org.springframework.data.solr.repository.Spellcheck;
-import org.springframework.data.solr.repository.Stats;
+import org.springframework.data.solr.repository.*;
 import org.springframework.data.util.TypeInformation;
 import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
@@ -532,6 +526,15 @@ public class SolrQueryMethod extends QueryMethod {
 		}
 		return sc;
 	}
+
+  @Nullable
+  public ShardPreference getShardPreference() {
+    return AnnotatedElementUtils.findMergedAnnotation(this.method, ShardPreference.class);
+  }
+
+  public boolean hasShardPreference() {
+    return getShardPreference() != null;
+  }
 
 	@Nullable
   private String getAnnotationValueAsStringOrNullIfBlank(@Nullable Annotation annotation, String attributeName) {

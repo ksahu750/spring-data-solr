@@ -16,6 +16,7 @@
 package org.springframework.data.solr.core.query;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -233,6 +234,8 @@ public interface Query extends SolrDataQuery {
 	 * Sets the request handler.
 	 */
 	void setRequestHandler(String requestHandler);
+
+  <T extends Query> T addParam(String key, String value);
 
 	/**
 	 * Sets {@link GroupOptions} for this {@link Query}.

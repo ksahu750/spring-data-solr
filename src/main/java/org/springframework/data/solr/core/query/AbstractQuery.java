@@ -15,6 +15,8 @@
  */
 package org.springframework.data.solr.core.query;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
@@ -29,6 +31,7 @@ class AbstractQuery {
 	private @Nullable Criteria criteria;
 	private @Nullable Join join;
 	private @Nullable String requestHandler;
+  private @Nullable Map<String, String> params;
 
 	AbstractQuery() {}
 
@@ -94,4 +97,17 @@ class AbstractQuery {
 		this.requestHandler = requestHandler;
 	}
 
+  @SuppressWarnings("unchecked")
+  public <T extends Query> T addParam(String key, String value) {
+    if (this.params == null) {
+      this.params = new HashMap<>();
+    }
+    this.params.put(key, value);
+    return (T) this;
+  }
+
+  @Nullable
+  public Map<String, String> getParams() {
+    return params;
+  }
 }
